@@ -14,3 +14,6 @@ cabal.sandbox.config
 *.prof
 *.aux
 *.hp
+json-litobj.do
+json-litobj.sublime-project
+json-litobj.sublime-workspace
