@@ -24,7 +24,7 @@ import Text.JSON.Types (JSValue(..), JSObject(..), toJSObject, toJSString, fromJ
 import Control.Monad(mzero)
 import Data.Maybe(fromMaybe, isJust)
 
-
+ 
 {--------------------------------------------------------------------
   Decoding
 --------------------------------------------------------------------}
