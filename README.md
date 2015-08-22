@@ -5,5 +5,6 @@ In particular, it relaxes the restrictions that fields in JSON objects must be s
 
 For example:
 
->  JSON conformant:                   literal JS object:
+   JSON conformant:                   literal JS object:
+   ----------------                   ------------------
 >  { "foo" : "bar" }                  { foo : "bar" }
