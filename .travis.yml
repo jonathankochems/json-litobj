@@ -1,3 +1,8 @@
 language: haskell
 ghc:
   - 7.8
+script:
+  - cabal configure --enable-tests --enable-library-coverage && cabal build && cabal test
+after_script:
+  - cabal install codecov-haskell
+  - codecov-haskell [options] [test-suite-names]
