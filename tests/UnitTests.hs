@@ -28,29 +28,29 @@ textJsonNonstrict = hspec $
             json_object           = toJSObject [("foo", JSString $ toJSString "bar")]
         (either (\_ -> error "fail") 
                 id 
-                resultToEither $ decodeNonStrict nonstrict_json_string) `shouldBe` json_object
+                $ resultToEither $ decodeNonStrict nonstrict_json_string) `shouldBe` json_object
     it "should parse JSON objects with relaxed and normal field syntax" $ do
         let mixed_json_string = "{ foo : \"bar\", \"fooz\" : \"baz\" }"
             json_object           = toJSObject [("foo", JSString $ toJSString "bar"), ("fooz", JSString $ toJSString "baz")]
         (either (\_ -> error "fail") 
                 id 
-                resultToEither $ decodeNonStrict mixed_json_string) `shouldBe` json_object
+                $ resultToEither $ decodeNonStrict mixed_json_string) `shouldBe` json_object
     it "should parse JSON objects produced by Text.JSON.encode" $ do
         let json_object           = toJSObject [("foo", JSString $ toJSString "bar"), ("fooz", JSString $ toJSString "baz")]
             json_object_string    = encode json_object
         (either (\_ -> error "fail") 
                 id 
-                resultToEither $ decodeNonStrict json_object_string) `shouldBe` json_object
+                $ resultToEither $ decodeNonStrict json_object_string) `shouldBe` json_object
     it "should parse *all* JSON objects produced by Text.JSON.encode" $
        property $ 
            forAll jsonObject $ 
             \json_object -> 
                 (either (\s -> error $ "fail non-strict: " ++ show s ) 
                        id 
-                       resultToEither . decodeNonStrict $ encode json_object) `shouldBe` 
+                       $ resultToEither . decodeNonStrict $ encode json_object) `shouldBe` 
                 (either (\s -> error $ "fail conformant: " ++ s ) 
                        id 
-                       resultToEither . decode $ encode json_object) 
+                       $ resultToEither . decode $ encode json_object) 
 
 jsonObject :: Gen (JSObject JSValue)
 jsonObject = do
