@@ -22,7 +22,8 @@ import Text.JSON.Parsec ( runParser, try, CharParser(..), spaces, space, char, s
                         string, p_number, p_string, p_boolean, p_null, many, choice, noneOf, option, lookAhead, ParseError,  optionMaybe)
 import Text.JSON.Types (JSValue(..), JSObject(..), toJSObject, toJSString, fromJSObject)
 import Control.Monad(mzero)
-import Data.Maybe(fromMaybe, isJust)
+import Data.Maybe (fromMaybe, isJust)
+import Control.Applicative ((<$>))
 
  
 {--------------------------------------------------------------------
@@ -63,7 +64,7 @@ p_object :: CharParser () [(String, JSValue)]
 p_object = do _ <- spaces
               _  <- char '{'
               _ <- spaces
-              rs <- option [] $ try $ entry `sepBy` (string ",")
+              rs <- option [] $ try $ entry `sepBy` string ","
               _ <- spaces
               _  <- char '}'
               return rs
@@ -78,18 +79,18 @@ p_object = do _ <- spaces
 
 -- p_jvalue just hooks in the p_object parser (and also the modified p_array parser)                     
 p_jvalue :: CharParser () JSValue
-p_jvalue = choice [ fmap (JSObject . toJSObject) $ try_wrapper p_object "{", 
-                    fmap JSArray $ try_wrapper p_array "[",
-                    fmap (JSString . toJSString) $ try_wrapper p_string' "\"",
-                    fmap (JSRational False) $ try p_number,
-                    fmap JSBool $ try p_boolean,
-                    fmap (\() -> JSNull) $ try p_null
+p_jvalue = choice [ (JSObject . toJSObject) <$> try_wrapper p_object "{", 
+                    JSArray <$> try_wrapper p_array "[",
+                    (JSString . toJSString) <$> try_wrapper p_string' "\"",
+                    JSRational False <$> try p_number,
+                    JSBool <$> try p_boolean,
+                    (\() -> JSNull) <$> try p_null
                   ]
 
 -- p_array just hooks into the p_jvalue parser
 p_array :: CharParser () [JSValue]
 p_array = do _  <- char '['
-             rs <- entry  `sepBy` (string ",") 
+             rs <- entry  `sepBy` string ","
              _  <- char ']'
              return rs
     where entry = do _ <- spaces

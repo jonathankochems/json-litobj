@@ -9,6 +9,7 @@ import Test.QuickCheck
 import Data.Char(isPrint)
 --import qualified Control.Exception as Except
 import Data.Either
+import Control.Applicative ((<$>))
 
 import Text.JSON (encode, decode, resultToEither)
 import Text.JSON.Types (toJSObject, toJSString, JSValue(..), JSObject, JSString)
@@ -58,12 +59,12 @@ jsonObject = do
    json_object_with_depth depth_bound
 
 jsonValueWithDepth :: Int -> Gen JSValue
-jsonValueWithDepth d = oneof [ fmap JSString $ json_string,
-                               fmap JSObject $ json_object_with_depth d,
-                               fmap JSArray  $ json_array_with_depth d,
-                               elements $ [JSNull],
-                               fmap JSBool $ arbitrary,
-                               fmap (\(x,y) -> JSRational x y) $ arbitrary 
+jsonValueWithDepth d = oneof [ fmap JSString json_string,
+                               JSObject <$> json_object_with_depth d,
+                               JSArray  <$> json_array_with_depth d,
+                               elements [JSNull],
+                               fmap JSBool arbitrary,
+                               fmap (uncurry JSRational) arbitrary 
                              ]
 
 json_string :: Gen JSString
