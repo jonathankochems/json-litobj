@@ -8,7 +8,7 @@
 -- Portability :  portable
 --
 -- This module extends Text.JSON to enable the decoding of strings containing literal JS objects.
--- In particular, it relaxes the restrictions that fields in JSON objects must be strings.
+-- In particular, it relaxes the restriction that fields in JSON objects must be strings.
 --
 -- For example:
 --
