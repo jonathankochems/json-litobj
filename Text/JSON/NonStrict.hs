@@ -103,14 +103,15 @@ p_array = do _  <- char '['
 p_string' = do ws <- leadingWhiteSpace
                s  <- p_string
                return $ ws ++ s
+
 leadingWhiteSpace = lookAhead $ try $ do _ <- string "\""
-                                         ws <- many space 
-                                         return ws 
+                                         many space 
+                                          
 
 -- Helper function to use in non-deterministic choice with lookAhead
 try_wrapper :: CharParser () a -> String -> CharParser () a
 try_wrapper p prefix = do try $ lookAhead (string prefix)
-                          x <- try p
-                          return x 
+                          try p
+
 
 
