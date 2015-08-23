@@ -17,3 +17,4 @@ cabal.sandbox.config
 json-litobj.do
 json-litobj.sublime-project
 json-litobj.sublime-workspace
+.tmp-report

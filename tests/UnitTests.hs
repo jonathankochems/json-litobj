@@ -52,6 +52,12 @@ textJsonNonstrict = hspec $
                 either (\s -> error $ "fail conformant: " ++ s ) 
                        id 
                        (resultToEither . decode $ encode json_object) 
+    it "should give access to all available fields of a JSON object" $ do
+      let fields = either (\s -> error $ "failed to parse: " ++ show s ) 
+                          id 
+                          (resultToEither $ get_fields <$> decodeNonStrict "{ foo : \"bar\", fooz : \"baz\" }" )
+      fields `shouldBe` ["foo", "fooz"]
+
 
 jsonObject :: Gen (JSObject JSValue)
 jsonObject = do
