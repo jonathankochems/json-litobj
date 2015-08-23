@@ -39,6 +39,7 @@ script:
     fi)
 
 after_script:
+  - bash <(curl -s https://codecov.io/bash) -t 8a4780ac-5c02-49ef-8faa-8f7a5a7763e7
   - codecov-haskell test-json-litobj --exclude-dir=tests --display-report --print-response
 
 notifications:
