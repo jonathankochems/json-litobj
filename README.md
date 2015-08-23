@@ -29,6 +29,6 @@ To contribute:
 
 1. fork this repository
 2. create a feature branch 
-3. commit&push your code to your feature branch
+3. commit and push your code to your feature branch
 4. create a pull request to this repository
 
