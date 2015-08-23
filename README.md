@@ -19,7 +19,7 @@ For example:
 
 ## Documentation
 
-The haddock documentation can be found on [hackage](https://hackage.haskell.org/package/json-litobj-0.1.0.0/candidate).
+The haddock documentation can be found on [hackage](https://hackage.haskell.org/package/json-litobj-0.1.0.0).
 
 ## Motivation
 
