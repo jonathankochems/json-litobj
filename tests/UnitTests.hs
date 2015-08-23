@@ -15,47 +15,47 @@ import Text.JSON (encode, decode, resultToEither)
 import Text.JSON.Types (toJSObject, toJSString, JSValue(..), JSObject, JSString)
 
 {-Modules to test-}
-import Text.JSON.NonStrict
+import Text.JSON.Permissive
 
 
 main :: IO ()
-main = textJsonNonstrict
+main = textJsonPermissive
 
-textJsonNonstrict :: IO ()
-textJsonNonstrict = hspec $
-  describe "Text.JSON.NonStrict" $ do
+textJsonPermissive :: IO ()
+textJsonPermissive = hspec $
+  describe "Text.JSON.Permissive" $ do
     it "should parse JSON objects with relaxed field syntax" $ do
         let nonstrict_json_string = "{ foo : \"bar\" }"
             json_object           = toJSObject [("foo", JSString $ toJSString "bar")]
         either (\_ -> error "fail") 
                 id 
-                (resultToEither $ decodeNonStrict nonstrict_json_string) `shouldBe` json_object
+                (resultToEither $ decodePermissive nonstrict_json_string) `shouldBe` json_object
     it "should parse JSON objects with relaxed and normal field syntax" $ do
         let mixed_json_string = "{ foo : \"bar\", \"fooz\" : \"baz\" }"
             json_object           = toJSObject [("foo", JSString $ toJSString "bar"), ("fooz", JSString $ toJSString "baz")]
         either (\_ -> error "fail") 
                 id 
-                (resultToEither $ decodeNonStrict mixed_json_string) `shouldBe` json_object
+                (resultToEither $ decodePermissive mixed_json_string) `shouldBe` json_object
     it "should parse JSON objects produced by Text.JSON.encode" $ do
         let json_object           = toJSObject [("foo", JSString $ toJSString "bar"), ("fooz", JSString $ toJSString "baz")]
             json_object_string    = encode json_object
         either (\_ -> error "fail") 
                 id 
-                (resultToEither $ decodeNonStrict json_object_string) `shouldBe` json_object
+                (resultToEither $ decodePermissive json_object_string) `shouldBe` json_object
     it "should parse *all* JSON objects produced by Text.JSON.encode" $
        property $ 
            forAll jsonObject $ 
             \json_object -> 
                 either (\s -> error $ "fail non-strict: " ++ show s ) 
                        id 
-                       (resultToEither . decodeNonStrict $ encode json_object) `shouldBe` 
+                       (resultToEither . decodePermissive $ encode json_object) `shouldBe` 
                 either (\s -> error $ "fail conformant: " ++ s ) 
                        id 
                        (resultToEither . decode $ encode json_object) 
     it "should give access to all available fields of a JSON object" $ do
       let fields = either (\s -> error $ "failed to parse: " ++ show s ) 
                           id 
-                          (resultToEither $ get_fields <$> decodeNonStrict "{ foo : \"bar\", fooz : \"baz\" }" )
+                          (resultToEither $ get_fields <$> decodePermissive "{ foo : \"bar\", fooz : \"baz\" }" )
       fields `shouldBe` ["foo", "fooz"]
 
 

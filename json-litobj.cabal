@@ -63,7 +63,7 @@ source-repository this
 
 library
   -- Modules exported by the library.
-  exposed-modules:     Text.JSON.NonStrict
+  exposed-modules:     Text.JSON.Permissive
   
   -- Modules included in this library but not exported.
   -- other-modules:       

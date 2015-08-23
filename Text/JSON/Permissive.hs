@@ -1,6 +1,6 @@
 -----------------------------------------------------------------------------
 -- |
--- Module      :  Text.JSON.NonStrict
+-- Module      :  Text.JSON.Permissive
 -- Copyright   :  (c) Jonathan Kochems 2015
 -- License     :  BSD-3
 -- Maintainer  :  jonathan.kochems@gmail.com
@@ -16,7 +16,7 @@
 -- >  { "foo" : "bar" }                  { foo : "bar" }
 --
 -----------------------------------------------------------------------------
-module Text.JSON.NonStrict(decodeNonStrict, get_fields) where
+module Text.JSON.Permissive(decodePermissive, get_fields) where
 import Text.JSON (Result(..))
 import Text.JSON.Parsec ( runParser, try, CharParser(..), spaces, space, char, sepBy, manyTill, anyChar,
                         string, p_number, p_string, p_boolean, p_null, many, choice, noneOf, option, lookAhead, ParseError,  optionMaybe)
@@ -34,10 +34,10 @@ import Control.Applicative ((<$>))
 -- > decode "{ foo : \"bar\" }"
 -- > Error "Malformed JSON: expecting string: foo : \"b"
 -- >
--- > decodeNonStrict "{ foo : \"bar\" }"      == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
--- > decodeNonStrict "{ \"foo\" : \"bar\" }"  == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
-decodeNonStrict :: String -> Result (JSObject JSValue)
-decodeNonStrict s = either (Error . show) 
+-- > decodePermissive "{ foo : \"bar\" }"      == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
+-- > decodePermissive "{ \"foo\" : \"bar\" }"  == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
+decodePermissive :: String -> Result (JSObject JSValue)
+decodePermissive s = either (Error . show) 
                            (Ok    . toJSObject) 
                             $ runParser p_object () "stdin" s
 
@@ -46,10 +46,10 @@ decodeNonStrict s = either (Error . show)
 --------------------------------------------------------------------}
 -- | returns the list of fields of a JSON Object
 --
--- > do obj <- decodeNonStrict "{ foo : \"bar\", fooz : \"baz\" }"
+-- > do obj <- decodePermissive "{ foo : \"bar\", fooz : \"baz\" }"
 -- >    return $ get_fields obj  == Ok ["foo", "fooz"]
 --
--- > do obj <- decodeNonStrict "{ foo : \"bar\", fooz : \"baz\" }"
+-- > do obj <- decodePermissive "{ foo : \"bar\", fooz : \"baz\" }"
 -- >    return $ get_field obj $ head $ get_fields obj  == Ok (Just $ JSString $ toJSString "bar" )
 get_fields :: JSObject a -> [String]
 get_fields = map fst . fromJSObject
