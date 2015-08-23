@@ -39,4 +39,4 @@ script:
     fi)
 
 after_script:
-  - codecov-haskell test-json-litobj --display-report --print-response
+  - codecov-haskell test-json-litobj --exclude-dir=tests --display-report --print-response
