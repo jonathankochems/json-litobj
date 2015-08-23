@@ -36,8 +36,8 @@ import Data.Maybe(fromMaybe, isJust)
 -- > decodeNonStrict "{ foo : \"bar\" }"      == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
 -- > decodeNonStrict "{ \"foo\" : \"bar\" }"  == Ok $ toJSObject [("foo", JSString $ toJSString "bar")]
 decodeNonStrict :: String -> Result (JSObject JSValue)
-decodeNonStrict s = either (\e -> Error $ show e) 
-                           (\o -> Ok $ toJSObject o) 
+decodeNonStrict s = either (Error . show) 
+                           (Ok    . toJSObject) 
                             $ runParser p_object () "stdin" s
 
 {--------------------------------------------------------------------

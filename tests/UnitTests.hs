@@ -59,12 +59,12 @@ jsonObject = do
 
 jsonValueWithDepth :: Int -> Gen JSValue
 jsonValueWithDepth d = oneof [ fmap JSString $ json_string,
-                                  fmap JSObject $ json_object_with_depth d,
-                                  fmap JSArray  $ json_array_with_depth d,
-                                  elements $ [JSNull],
-                                  fmap JSBool $ arbitrary,
-                                  fmap (\(x,y) -> JSRational x y) $ arbitrary 
-                                ]
+                               fmap JSObject $ json_object_with_depth d,
+                               fmap JSArray  $ json_array_with_depth d,
+                               elements $ [JSNull],
+                               fmap JSBool $ arbitrary,
+                               fmap (\(x,y) -> JSRational x y) $ arbitrary 
+                             ]
 
 json_string :: Gen JSString
 json_string = do
