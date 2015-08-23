@@ -16,7 +16,7 @@ version:             0.1.0.0
 synopsis:            Extends Text.JSON to handle literal JS objects.
 
 -- A longer description of the package.
--- description:      This module extends Text.JSON to enable the decoding of strings containing literal JS objects.
+description:      This module extends Text.JSON to enable the decoding of strings containing literal JS objects.
 
 -- URL for the project homepage or repository.
 homepage:            https://github.com/jonathankochems/json-litobj
