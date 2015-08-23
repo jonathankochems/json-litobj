@@ -19,7 +19,8 @@
 module Text.JSON.Permissive(decodePermissive, get_fields) where
 import Text.JSON (Result(..))
 import Text.JSON.Parsec ( runParser, try, CharParser(..), spaces, space, char, sepBy, manyTill, anyChar,
-                        string, p_number, p_string, p_boolean, p_null, many, choice, noneOf, option, lookAhead, ParseError,  optionMaybe)
+                          string, p_number, p_string, p_boolean, p_null, many, choice, noneOf, option, 
+                          lookAhead, ParseError,  optionMaybe )
 import Text.JSON.Types (JSValue(..), JSObject(..), toJSObject, toJSString, fromJSObject)
 import Control.Monad(mzero)
 import Data.Maybe (fromMaybe, isJust)
@@ -80,11 +81,11 @@ p_object = do _ <- spaces
 -- p_jvalue just hooks in the p_object parser (and also the modified p_array parser)                     
 p_jvalue :: CharParser () JSValue
 p_jvalue = choice [ (JSObject . toJSObject) <$> try_wrapper p_object "{", 
-                    JSArray <$> try_wrapper p_array "[",
+                    JSArray                 <$> try_wrapper p_array "[",
                     (JSString . toJSString) <$> try_wrapper p_string' "\"",
-                    JSRational False <$> try p_number,
-                    JSBool <$> try p_boolean,
-                    (\() -> JSNull) <$> try p_null
+                    JSRational False        <$> try p_number,
+                    JSBool                  <$> try p_boolean,
+                    (\() -> JSNull)         <$> try p_null
                   ]
 
 -- p_array just hooks into the p_jvalue parser

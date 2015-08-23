@@ -6,10 +6,9 @@ import Test.Hspec
 import Test.QuickCheck
 
 {-Basic libraries-}
-import Data.Char(isPrint)
---import qualified Control.Exception as Except
-import Data.Either
 import Control.Applicative ((<$>))
+import Data.Char(isPrint)
+import Data.Either
 
 import Text.JSON (encode, decode, resultToEither)
 import Text.JSON.Types (toJSObject, toJSString, JSValue(..), JSObject, JSString)
@@ -81,8 +80,8 @@ json_string = do
 json_object_with_depth :: Int -> Gen (JSObject JSValue)
 json_object_with_depth d = do
     num_fields <- choose(0,4)
-    strings <- vector num_fields
-    values  <- vectorOf num_fields $ jsonValueWithDepth (d-1)
+    strings    <- vector num_fields
+    values     <- vectorOf num_fields $ jsonValueWithDepth (d-1)
     return $ toJSObject $ zip strings values
 
 json_array_with_depth :: Int -> Gen [JSValue]
