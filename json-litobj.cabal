@@ -48,6 +48,18 @@ extra-source-files:  README.md
 -- Constraint on the version of Cabal needed to build this package.
 cabal-version:       >=1.10
 
+-- Source repository information for development branch
+source-repository head
+  type:     git
+  location: git://github.com/jonathankochems/json-litobj.git 
+  branch:   develop
+
+-- Source repository information for this version of the package
+source-repository this
+  type:     git
+  location: git://github.com/jonathankochems/json-litobj.git 
+  branch:   develop
+  tag:      stable
 
 library
   -- Modules exported by the library.
