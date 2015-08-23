@@ -38,10 +38,9 @@ script:
       exit 1;
     fi)
 
-after_script:
-  - bash <(curl -s https://codecov.io/bash) 
-  - codecov-haskell test-json-litobj --exclude-dir=tests --display-report --print-response
-  - bash <(curl -s https://codecov.io/bash)
+after_script: 
+  - codecov-haskell test-json-litobj --exclude-dir=tests --display-report --print-response --dont-send > .tmp-report
+  - bash <(curl -s https://codecov.io/bash) -f .tmp-report
 
 notifications:
   webhooks:
